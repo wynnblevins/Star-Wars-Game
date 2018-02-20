@@ -2,21 +2,21 @@
     'use strict';
 
     var selectedChar = '';
-    var $characterPics = $('.character-picture');
+    var $characterBoxes = $('.character-box');
     
-    $characterPics.click(function () {
-        var ndx = $('.character-picture').index(this);
-        
-        if (ndx === 0) {
-            selectedChar = 'Luke Skywalker';
-        } else if (ndx === 1) {
-            selectedChar = 'The Emperor';
-        } else if (ndx === 2) {
-            selectedChar = 'Obi Wan Kenobi';
-        } else if (ndx === 3) {
-            selectedChar = 'Darth Vader';
-        }
+    $characterBoxes.click(function () {
+        var selectedCharacter = this;
+        var $charBox = $('.character-box');
+        var selectionNdx = $charBox.index(this);
+        var characterSelector = 'ul#your-character-list';
+        var $selectedChild= $(characterSelector).children().eq(selectionNdx);
+        var numOfCharacters = $(characterSelector).children().length;
 
-        console.log(selectedChar);
+        // remove all characters except selected character from character choice section
+        for (var currCharacterNdx = 0; currCharacterNdx <= numOfCharacters; ++currCharacterNdx) {
+            if (currCharacterNdx !== selectionNdx) {
+                $charBox.eq(currCharacterNdx).remove();    
+            }
+        }
     });
 })();

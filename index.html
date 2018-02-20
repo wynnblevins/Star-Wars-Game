@@ -16,25 +16,26 @@
 <body class="container">
     <div class="row">    
         <div id="title-section">
-            <h1>Star Wars RPG!</h1>
+            <h1 class="star-wars">Star Wars RPG!</h1>
         </div>
 
         <div id="character-choice-section">
             <h2>Your Character</h2>
-            <ul>
-                <li class="col-sm-3 col-xs-6">
+                
+            <ul id="your-character-list">
+                <li class="col-sm-3 col-xs-6 character-box lukeLi">
                     <img id="lukeImg" class="img-responsive character-picture" 
                         src="assets/images/rsz_luke.png" alt="Luke Skywalker">
                 </li>
-                <li class="col-sm-3 col-xs-6">
+                <li class="col-sm-3 col-xs-6 character-box emporerLi">
                     <img id="emperorImg" class="img-responsive character-picture" 
                         src="assets/images/rsz_emperor.png" alt="The Emporer">
                 </li>
-                <li class="col-sm-3 col-xs-6">
+                <li class="col-sm-3 col-xs-6 character-box obiwanLi">
                     <img id="obiwanImg" class="img-responsive character-picture" 
                         src="assets/images/rsz_obiwan.png" alt="Obi-Wan Kenobi">
                 </li>
-                <li class="col-sm-3 col-xs-6">
+                <li class="col-sm-3 col-xs-6 character-box vaderLi">
                     <img id="vaderImg" class="img-responsive character-picture" 
                         src="assets/images/rsz_vader.png" alt="Darth Vader">
                 </li>
@@ -42,11 +43,30 @@
         </div>
     </div>
 
-    <div id="enemy-section row">
+    <div id="enemy-section" class="row">
+
+    </div>
+
+    <!-- <div id="enemy-section row">
+        <h2>Enemies Available To Attack</h2>
+        <ul class="potential-target-list">
+            <li class="col-xs-3 character-box">
+                <img id="vaderImg" class="img-responsive character-picture" 
+                        src="assets/images/rsz_vader.png" alt="Darth Vader">
+            </li>
+            <li class="col-xs-3 character-box">
+                <img id="vaderImg" class="img-responsive character-picture" 
+                        src="assets/images/rsz_vader.png" alt="Darth Vader">
+            </li>
+            <li class="col-xs-3 character-box">
+                <img id="vaderImg" class="img-responsive character-picture" 
+                        src="assets/images/rsz_vader.png" alt="Darth Vader">
+            </li>
+        </ul>
         <h2>Fight Section</h2>
         <button type="button" class="btn btn-default">Attack</button>
         <h2>Defender</h2>
-    </div>
+    </div> -->
     
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

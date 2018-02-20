@@ -8,3 +8,16 @@ body {
     -o-background-size: cover;
     background-size: cover;
 }
+
+li.character-box {
+    padding: 15px;
+    border: 2px solid black;
+    display: inline;
+    text-align: center;
+    background-color: #fff;
+}
+   
+li.character-box img.character-picture {
+    display: block;
+    margin: auto;
+}
