@@ -1,7 +1,8 @@
 (function () {
     'use strict';
-    
-    $('.character-picture').click(function () {
-        console.log('character picture was clicked');   
+
+    var $characterPics = $('.character-picture');
+    $characterPics.click(function () {
+        console.log($('.character-picture').index(this));   
     });
 })();
