@@ -1,4 +1,7 @@
 (function () {
     'use strict';
-    console.log('Game script is loading.');
+    
+    $('.character-picture').click(function () {
+        console.log('character picture was clicked');   
+    });
 })();
