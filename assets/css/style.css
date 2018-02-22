@@ -9,7 +9,7 @@ body {
     background-size: cover;
 }
 
-li.character-box {
+div.character-box {
     padding: 15px;
     border: 2px solid black;
     display: inline;
@@ -17,7 +17,23 @@ li.character-box {
     background-color: #fff;
 }
    
-li.character-box img.character-picture {
+div.character-box img.character-picture {
     display: block;
     margin: auto;
+}
+
+div.character-box.unselected {
+    background-color: white;
+}
+
+div.character-box.available-enemy {
+    background-color: red;
+}
+
+div.character-box.defender {
+    background-color: #A9A9A9;
+}
+
+.invisible {
+    display: none;
 }
