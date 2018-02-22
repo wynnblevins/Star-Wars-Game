@@ -8,6 +8,7 @@
         var $targetEnemy = null, $enemy = null; 
         var $defenderSection = $('#defender-section');
         var selectionNdx = null;
+        
 
         $unselected.click(function () {
             var selectedCharacter = this;
@@ -40,6 +41,10 @@
             $selectedChild.removeClass('available-enemy');
             $selectedChild.addClass('defender');
             $($defenderSection).append($selectedChild);
+        });
+
+        $('#attack-button').click(function () {
+            console.log('hello world!');    
         });
     });
     
