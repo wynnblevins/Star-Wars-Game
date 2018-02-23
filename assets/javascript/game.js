@@ -108,9 +108,11 @@
             // double player attack power
             $playerCharacter.data("characterObject").attackPower *= 2; 
             
-            // subtract attack power from enemy hp
-            console.log("Player Character: " + $playerCharacter.data("characterObject").name + " " + $playerCharacter.data("characterObject").hp);
-            console.log("Enemy Character: " + $enemy.data("characterObject").name + " " + $enemy.data("characterObject").hp);
+            if (characterIsDead($playerCharacter.data("characterObject").hp)) {
+                alert("Game Over, the force isn't strong too strong with you ;-)");          
+            } else if (characterIsDead($enemy.data("characterObject").hp)) {
+                alert($playerCharacter.data("characterObject").name + " defeated " + $enemy.data("characterObject").name);
+            } 
         });
     });
 })();
