@@ -58,6 +58,9 @@
         $($enemySection).delegate(".available-enemy", "click", function(){
             var $charBox = $('.available-enemy');
             selectionNdx = $charBox.index(this);
+
+            characters[selectionNdx];
+
             $enemy = $($enemySection).children().eq(selectionNdx);
             $enemy.characterObject = characters[selectionNdx];
             $enemy.detach();
