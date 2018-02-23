@@ -1,86 +1,116 @@
 (function () {
-    'use strict';
+    "use strict";
 
     $(document).ready(function () {
-        var selectedChar = '';
-        var $unselected = $('.unselected');
-        var $enemySection = $('#enemy-list');
-        var $targetEnemy = null, $enemy = null, $currentEnemy = null; 
-        var $defenderSection = $('#defender-section');
+        var $initialState = $(".initialState");
+        var $enemySection = $("#enemy-list");
+        var $enemy = null; 
+        var $defenderSection = $("#defender-section");
         var selectionNdx = null;
-        var baseAttackPower = 6;
-        var $playerCharacter, $enemy = null;
-
+        var $playerCharacter;
+        var enemies = [];
+        var $charBoxes = null;
+        
         // initialize character array
         var characters = [
-            { name: 'Luke Skywalker', hp: 120, isPlayerCharacter: false, attackPower: 6, counterAttackPower: 6 },
-            { name: 'The Emperor', hp: 150, isPlayerCharacter: false, attackPower: 20, counterAttackPower: 12 },
-            { name: 'Obi Wan Kenobi', hp: 130, isPlayerCharacter: false, attackPower: 10, counterAttackPower: 8 },
-            { name: 'Darth Vader', hp: 140, isPlayerCharacter: false, attackPower: 15, counterAttackPower: 10 }
+            { name: "Luke Skywalker", hp: 100, isPlayerCharacter: false, attackPower: 8, counterAttackPower: 6 },
+            { name: "The Emperor", hp: 150, isPlayerCharacter: false, attackPower: 22, counterAttackPower: 20 },
+            { name: "Obi Wan Kenobi", hp: 120, isPlayerCharacter: false, attackPower: 15, counterAttackPower: 13 },
+            { name: "Darth Vader", hp: 180, isPlayerCharacter: false, attackPower: 30, counterAttackPower: 25 }
         ];
 
+        function characterIsDead(hp) {
+            if (hp <= 0) {
+                return true;
+            }
+            return false;
+        }
+
         // display character name
-        $('.character-name-text').each(function (index, value) {
+        $(".character-name-text").each(function (index, value) {
             $(value).text(characters[index].name);        
         });
 
         // display character hp
-        $('.character-hp').each(function (index, value) {
+        $(".character-hp").each(function (index, value) {
             $(value).text(characters[index].hp);        
         });
 
-        $unselected.click(function () {
-            var selectedCharacter = this;
-            var $charBox = $('.unselected');
-            selectionNdx = $charBox.index(this);
-            var characterSelector = 'div#character-list';
-            var $selectedChild = $(characterSelector).children().eq(selectionNdx);
-            var numOfCharacters = $(characterSelector).children().length;
+        $(".initialState").on("click", function () {
+            // get all divs surrounding char boxes (should be 4 of them aka 0, 1, 2, 3)
+            $charBoxes = $(".initialState");
+            
+            // get index of selected div if darth vader itll be 3 if luke itll be 0
+            selectionNdx = $charBoxes.index(this);
+            
+            // get total number of characters, should be === to 4
+            var numOfCharacters = $("div#character-list").children().length;
+            var $charObjs = $("div#character-list").children();
 
+            // loop through characters 
             for (var currCharacterNdx = 0; currCharacterNdx < numOfCharacters; ++currCharacterNdx) {
+                // if the current character isnt the character we clicked on a.k.a. our hero
                 if (currCharacterNdx !== selectionNdx) {
-                    $enemy = $charBox.eq(currCharacterNdx).detach();
-                    $enemy.addClass('available-enemy');
+                    // remove the clicked element from the DOM its position as a possible hero
+                    $enemy = $charBoxes.eq(currCharacterNdx).detach();
+                    
+                    // give the clicked element the appropriate css class
+                    $enemy.addClass("available-enemy");
+                    
+                    // put the unclicked element in the possible enemies section
                     $enemySection.append($enemy);
-                } else {
-                    $playerCharacter = $(characterSelector).children().eq(selectionNdx);
-                    $playerCharacter.characterObject = characters[selectionNdx];
-                    $playerCharacter.isPlayerCharacter = true;  
+                    
+                    // add the element to the list of possible enemies
+                    enemies.push(characters[currCharacterNdx]);            
+                } else {  // this is the element we clicked a.k.a. our hero
+                    $playerCharacter = $charObjs.children().eq(selectionNdx);
+                    console.log('Selection NDX: ' + selectionNdx);
+                    console.log('Character List Children: ' + $("div#character-list > div").children().length);
+                    
+                    var mycharacter = characters[selectionNdx];
+                    $playerCharacter.data("characterObject", mycharacter);  
                 }
             }
-    
-            // remove unselected css class and unselected event handler
-            $charBox.removeClass('unselected');
-            $('.unselected').off();
+
+            // remove initialState css class and initialState event handler
+            $initialState.off("click");
+            $charBoxes.removeClass("initialState");
         });
 
-        // user has clicked on an enemy character
+        // user has selected a available enemy character
         $($enemySection).delegate(".available-enemy", "click", function(){
-            var $charBox = $('.available-enemy');
-            selectionNdx = $charBox.index(this);
-
-            characters[selectionNdx];
-
-            $enemy = $($enemySection).children().eq(selectionNdx);
-            $enemy.characterObject = characters[selectionNdx];
+            var $enemyBoxes = $(".available-enemy");
+            selectionNdx = $enemyBoxes.index(this);
+            
+            // remove enemy
+            var $children = $($enemySection).children();
+            $enemy = $children.eq(selectionNdx);
+            
+            var selectedEnemy = enemies[selectionNdx]
+            var selectedEnemies = enemies.slice(selectionNdx, 1);
+            var enemyCharacter = selectedEnemy; 
+                        
+            $enemy.data("characterObject", selectedEnemy);
             $enemy.detach();
-            $enemy.removeClass('available-enemy');
-            $enemy.addClass('defender');
-            $($defenderSection).append($enemy);
+
+            // adjusting css classes for jquery to use as selectors later
+            $enemy.removeClass("available-enemy");
+            $enemy.addClass("defender");
+
+            // add the character to the defender section
+            $($defenderSection).append($enemy); 
         });
 
-        $('#attack-button').click(function () {            
-            // subtract attack power from enemy hp
+        $("#attack-button").click(function () {            
+            $playerCharacter.data("characterObject").hp -= $enemy.data("characterObject").counterAttackPower;
+            $enemy.data("characterObject").hp -= $playerCharacter.data("characterObject").attackPower;
+
+            // double player attack power
+            $playerCharacter.data("characterObject").attackPower *= 2; 
             
-            // double players attack power
-            $playerCharacter.characterObject.attackPower *= 2;
-
-            // subtract enemy's counter attack power from player's hp
-            $playerCharacter.characterObject.hp -= $enemy.characterObject.counterAttackPower;
-
-            alert('Your HP: ' + $playerCharacter.characterObject.hp);
-            alert('Enemy HP: ' + $enemy.characterObject.hp);
+            // subtract attack power from enemy hp
+            console.log("Player Character: " + $playerCharacter.data("characterObject").name + " " + $playerCharacter.data("characterObject").hp);
+            console.log("Enemy Character: " + $enemy.data("characterObject").name + " " + $enemy.data("characterObject").hp);
         });
     });
-    
 })();

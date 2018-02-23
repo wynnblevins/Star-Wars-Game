@@ -22,7 +22,7 @@ div.character-box img.character-picture {
     margin: auto;
 }
 
-div.character-box.unselected {
+div.character-box.initialState {
     background-color: white;
 }
 
