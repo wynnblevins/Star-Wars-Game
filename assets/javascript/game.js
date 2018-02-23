@@ -5,7 +5,7 @@
         var selectedChar = '';
         var $unselected = $('.unselected');
         var $enemySection = $('#enemy-list');
-        var $targetEnemy = null, $enemy = null; 
+        var $targetEnemy = null, $enemy = null, enemyObj = null; 
         var $defenderSection = $('#defender-section');
         var selectionNdx = null;
         
@@ -17,15 +17,17 @@
             { name: 'Darth Vader', hp: 140, isPlayerCharacter: false }
         ];
 
-        // display character name
-        $('.character-name-text').each(function (index, value) {
-            $(value).text(characters[index].name);        
-        });
+        function init () {
+            // display character name
+            $('.character-name-text').each(function (index, value) {
+                $(value).text(characters[index].name);        
+            });
 
-        // display character hp
-        $('.character-hp').each(function (index, value) {
-            $(value).text(characters[index].hp);        
-        });
+            // display character hp
+            $('.character-hp').each(function (index, value) {
+                $(value).text(characters[index].hp);        
+            });
+        }
 
         $unselected.click(function () {
             var selectedCharacter = this;
@@ -57,11 +59,20 @@
             $selectedChild.removeClass('available-enemy');
             $selectedChild.addClass('defender');
             $($defenderSection).append($selectedChild);
+            enemyObj = characters[selectionNdx];
         });
 
         $('#attack-button').click(function () {
+            // display player attack and damage
+            var $playerAttackText = $('#playerAttackText');
+            $playerAttackText.text('You attacked ' + enemyObj.name + ' for ' + 
+                playerAttackDamage + ' damage');
             
+            // display enemy attack and damage
+            var $enemyAttackText = $('#enemyAttackText');
+            $enemyAttackText.text(enemyObj.name + ' attacked you back for ' + enemyAttackDamage);
         });
+
+        init();
     });
-    
 })();
