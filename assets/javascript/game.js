@@ -13,10 +13,30 @@
         
         // initialize character array
         var characters = [
-            { name: "Luke Skywalker", hp: 100, isPlayerCharacter: false, attackPower: 8, counterAttackPower: 6 },
-            { name: "The Emperor", hp: 150, isPlayerCharacter: false, attackPower: 22, counterAttackPower: 20 },
-            { name: "Obi Wan Kenobi", hp: 120, isPlayerCharacter: false, attackPower: 15, counterAttackPower: 13 },
-            { name: "Darth Vader", hp: 180, isPlayerCharacter: false, attackPower: 30, counterAttackPower: 25 }
+            { name: "Luke Skywalker", 
+              hp: 100, 
+              isPlayerCharacter: false, 
+              attackPower: 8, 
+              counterAttackPower: 6,
+              listItemClass: '.lukeLi' },
+            { name: "The Emperor", 
+              hp: 150, 
+              isPlayerCharacter: false, 
+              attackPower: 22, 
+              counterAttackPower: 20,
+              listItemClass: '.emporerLi' },
+            { name: "Obi Wan Kenobi", 
+              hp: 120, 
+              isPlayerCharacter: false, 
+              attackPower: 15, 
+              counterAttackPower: 13,
+              listItemClass: '.obiwanLi' },
+            { name: "Darth Vader", 
+              hp: 180, 
+              isPlayerCharacter: false, 
+              attackPower: 30, 
+              counterAttackPower: 25,
+              listItemClass: '.vaderLi' }
         ];
 
         function characterIsDead(hp) {
@@ -24,6 +44,22 @@
                 return true;
             }
             return false;
+        }
+
+        function setNewEnemy(selectionNdx) {
+            var selectedEnemy = enemies[selectionNdx];
+            enemies.splice(selectionNdx, 1);
+            var enemyCharacter = selectedEnemy; 
+                        
+            $enemy.data("characterObject", selectedEnemy);
+            $enemy.detach();
+
+            // adjusting css classes for jquery to use as selectors later
+            $enemy.removeClass("available-enemy");
+            $enemy.addClass("defender");
+
+            // add the character to the defender section
+            $($defenderSection).append($enemy);
         }
 
         // display character name
@@ -81,37 +117,39 @@
         $($enemySection).delegate(".available-enemy", "click", function(){
             var $enemyBoxes = $(".available-enemy");
             selectionNdx = $enemyBoxes.index(this);
-            
+        
             // remove enemy
             var $children = $($enemySection).children();
             $enemy = $children.eq(selectionNdx);
             
-            var selectedEnemy = enemies[selectionNdx]
-            var selectedEnemies = enemies.slice(selectionNdx, 1);
-            var enemyCharacter = selectedEnemy; 
-                        
-            $enemy.data("characterObject", selectedEnemy);
-            $enemy.detach();
-
-            // adjusting css classes for jquery to use as selectors later
-            $enemy.removeClass("available-enemy");
-            $enemy.addClass("defender");
-
-            // add the character to the defender section
-            $($defenderSection).append($enemy); 
+            setNewEnemy(selectionNdx);
         });
 
         $("#attack-button").click(function () {            
             $playerCharacter.data("characterObject").hp -= $enemy.data("characterObject").counterAttackPower;
             $enemy.data("characterObject").hp -= $playerCharacter.data("characterObject").attackPower;
 
+            // number update values on screen
+            var playerCharObj = $($playerCharacter.data("characterObject"));
+            var playerLiId = playerCharObj[0].listItemClass;
+            var enemyObj = $($enemy.data("characterObject"));
+            var enemyLiId = enemyObj[0].listItemClass;     
+            $(playerLiId + ' > p.character-hp').text($playerCharacter.data("characterObject").hp - $enemy.data("characterObject").counterAttackPower);
+            $(enemyLiId + ' > p.character-hp').text($enemy.data("characterObject").hp - $playerCharacter.data("characterObject").counterAttackPower);
+
             // double player attack power
             $playerCharacter.data("characterObject").attackPower *= 2; 
             
-            if (characterIsDead($playerCharacter.data("characterObject").hp)) {
-                alert("Game Over, the force isn't strong too strong with you ;-)");          
-            } else if (characterIsDead($enemy.data("characterObject").hp)) {
-                alert($playerCharacter.data("characterObject").name + " defeated " + $enemy.data("characterObject").name);
+            var playerHp = $playerCharacter.data("characterObject").hp;
+            var enemyHp = $enemy.data("characterObject").hp;
+
+            if (characterIsDead(playerHp)) {
+                alert("Game Over, the force isn't too strong with you ;-)");          
+            } else if (characterIsDead(enemyHp)) {
+                alert($playerCharacter.data("characterObject").name + " defeated " 
+                    + $enemy.data("characterObject").name);
+
+                $enemy.detach();
             } 
         });
     });
