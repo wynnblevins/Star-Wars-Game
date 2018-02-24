@@ -46,6 +46,13 @@
             return false;
         }
 
+        function allEnemiesAreDead() {
+            if (enemies.length <= 0) {
+                return true;
+            }
+            return false;
+        }
+
         function setNewEnemy(selectionNdx) {
             var selectedEnemy = enemies[selectionNdx];
             enemies.splice(selectionNdx, 1);
@@ -143,8 +150,10 @@
             var playerHp = $playerCharacter.data("characterObject").hp;
             var enemyHp = $enemy.data("characterObject").hp;
 
-            if (characterIsDead(playerHp)) {
-                alert("Game Over, the force isn't too strong with you ;-)");          
+            if (allEnemiesAreDead()) {
+                document.location.href = './gameover.html';
+            } else if (characterIsDead(playerHp)) {
+                document.location.href = './gameover.html';          
             } else if (characterIsDead(enemyHp)) {
                 alert($playerCharacter.data("characterObject").name + " defeated " 
                     + $enemy.data("characterObject").name);
