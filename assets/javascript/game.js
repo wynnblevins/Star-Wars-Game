@@ -14,9 +14,9 @@
         // initialize character array
         var characters = [
             { name: "Luke Skywalker", 
-              hp: 100, 
+              hp: 115, 
               isPlayerCharacter: false, 
-              attackPower: 8, 
+              attackPower: 10, 
               counterAttackPower: 6,
               listItemClass: '.lukeLi' },
             { name: "The Emperor", 
@@ -26,7 +26,7 @@
               counterAttackPower: 20,
               listItemClass: '.emporerLi' },
             { name: "Obi Wan Kenobi", 
-              hp: 120, 
+              hp: 125, 
               isPlayerCharacter: false, 
               attackPower: 15, 
               counterAttackPower: 13,
@@ -107,9 +107,6 @@
                     enemies.push(characters[currCharacterNdx]);            
                 } else {  // this is the element we clicked a.k.a. our hero
                     $playerCharacter = $charObjs.children().eq(selectionNdx);
-                    console.log('Selection NDX: ' + selectionNdx);
-                    console.log('Character List Children: ' + $("div#character-list > div").children().length);
-                    
                     var mycharacter = characters[selectionNdx];
                     $playerCharacter.data("characterObject", mycharacter);  
                 }
@@ -151,7 +148,7 @@
             var enemyHp = $enemy.data("characterObject").hp;
 
             if (allEnemiesAreDead()) {
-                document.location.href = './gameover.html';
+                document.location.href = './winner.html';
             } else if (characterIsDead(playerHp)) {
                 document.location.href = './gameover.html';          
             } else if (characterIsDead(enemyHp)) {
