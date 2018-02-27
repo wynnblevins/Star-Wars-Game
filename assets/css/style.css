@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'distant-galaxy';
+    src: url('../fonts/sf-distant-galaxy/TrueType/SFDistantGalaxy.ttf');
+}
+
+@font-face {
+    font-family: 'distant-galaxy-alternate';
+    src: url('../fonts/sf-distant-galaxy/TrueType/SFDistantGalaxyAlternate.ttf');
+}
+
 body {
     background: url('../images/hoth_background.jpg');
     background-repeat: no-repeat;
@@ -36,4 +46,12 @@ div.character-box.defender {
 
 .invisible {
     display: none;
+}
+
+.star-wars-text {
+    font-family: 'distant-galaxy';
+}
+
+.star-wars-text-alt {
+    font-family: 'distant-galaxy-alternate';
 }
